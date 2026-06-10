@@ -39,16 +39,13 @@ body::after {
     content: '';
     position: fixed;
     inset: 0;
-    width: 300%;
-    height: 300%;
-    top: -100%;
-    left: -100%;
     pointer-events: none;
     z-index: 9999;
     opacity: 0.12;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
     background-size: 200px 200px;
-    animation: grainMove 0.18s steps(1) infinite;
+    animation: grainShift 0.18s steps(1) infinite;
+    will-change: background-position;
 }
 
 @keyframes grainMove {
@@ -60,6 +57,17 @@ body::after {
     71%  { transform: translate(-3%, -2%);   }
     85%  { transform: translate(5%,   4%);   }
     100% { transform: translate(-1%, -4%);   }
+}
+
+@keyframes grainShift {
+    0%   { background-position: 0px 0px;     }
+    14%  { background-position: -32px 24px;  }
+    28%  { background-position: 24px -40px;  }
+    42%  { background-position: -48px 8px;   }
+    57%  { background-position: 16px 48px;   }
+    71%  { background-position: -24px -16px; }
+    85%  { background-position: 40px 32px;   }
+    100% { background-position: -8px -32px;  }
 }
 
 
