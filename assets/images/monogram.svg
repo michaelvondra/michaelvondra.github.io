@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1440 1080">
+  <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #2e3192;
+      }
+
+      .st0, .st1, .st2, .st3 {
+        opacity: .4;
+      }
+
+      .st0, .st1, .st2, .st3, .st4 {
+        display: none;
+      }
+
+      .st1 {
+        fill: lime;
+      }
+
+      .st2 {
+        fill: #fcee21;
+      }
+
+      .st5 {
+        fill: #5dd0f5;
+      }
+
+      .st3 {
+        fill: #c1272d;
+      }
+    </style>
+  </defs>
+  <image class="st4" width="1254" height="1254" transform="translate(416.9 96.2) scale(.6)" xlink:href="../../../../Downloads/47CA0E3E-5634-4B3C-A8FE-AE4736F9F091.PNG"/>
+  <g>
+    <polygon class="st5" points="648 324 444.3 324 264.4 144 144 144 144 324 0 324 0 0 324 0 648 324"/>
+    <polygon class="st5" points="792 324 995.7 324 1175.6 144 1296 144 1296 324 1440 324 1440 0 1116 0 792 324"/>
+    <polygon class="st5" points="1440 756 1440 1080 995.7 1080 995.7 936 1296 936 1296 756 1440 756"/>
+    <polygon class="st5" points="444.3 936 444.3 1080 0 1080 0 756 144 756 144 936 444.3 936"/>
+  </g>
+  <polygon class="st3" points="1010.4 428.8 1010.4 548.8 970.4 548.8 970.4 598.8 920.4 598.8 920.4 638.8 700.4 638.8 700.4 598.8 650.4 598.8 650.4 548.8 610.4 548.8 610.4 428.8 650.4 428.8 650.4 378.8 700.4 378.8 700.4 338.8 920.4 338.8 920.4 378.8 970.4 378.8 970.4 428.8 1010.4 428.8"/>
+  <rect class="st1" x="650.4" y="378.8" width="320" height="220"/>
+  <rect class="st2" x="700.4" y="338.8" width="220" height="300"/>
+  <rect class="st0" x="610.4" y="428.8" width="400" height="120"/>
+</svg>
