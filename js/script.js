@@ -489,8 +489,8 @@ window.addEventListener('scroll', () => {
     const track = document.querySelector('.ticker-track');
     if (!wrap || !track) return;
 
-    const SPEED_NORMAL = 0.5;  // px / frame
-    const SPEED_FAST   = 2.0;  // px / frame
+    const SPEED_NORMAL = 1.0;  // px / frame
+    const SPEED_FAST   = 4.0;  // px / frame
     const LERP         = 0.06; // plynulost přechodu (nižší = pomalejší)
 
     let position    = 0;
