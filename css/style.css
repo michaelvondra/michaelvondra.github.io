@@ -753,8 +753,8 @@ body::after {
     animation: ticker 35s linear infinite;
 }
 
-.ticker-track:hover {
-    animation-play-state: paused;
+.ticker-wrap:hover .ticker-track {
+    animation-duration: 12s;
 }
 
 .ticker-item {
