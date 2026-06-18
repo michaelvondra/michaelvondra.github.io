@@ -482,3 +482,42 @@ window.addEventListener('scroll', () => {
     glow.style.left = `${x}%`;
     glow.style.top  = `${y}%`;
 }, { passive: true });
+
+// Ticker — plynulé zrychlení při hoveru
+(function () {
+    const wrap  = document.querySelector('.ticker-wrap');
+    const track = document.querySelector('.ticker-track');
+    if (!wrap || !track) return;
+
+    const SPEED_NORMAL = 0.5;  // px / frame
+    const SPEED_FAST   = 2.0;  // px / frame
+    const LERP         = 0.06; // plynulost přechodu (nižší = pomalejší)
+
+    let position    = 0;
+    let speed       = SPEED_NORMAL;
+    let targetSpeed = SPEED_NORMAL;
+    let halfWidth   = 0;
+
+    function getHalfWidth() {
+        halfWidth = track.scrollWidth / 2;
+    }
+
+    getHalfWidth();
+    window.addEventListener('resize', getHalfWidth);
+
+    wrap.addEventListener('mouseenter',  () => targetSpeed = SPEED_FAST);
+    wrap.addEventListener('mouseleave',  () => targetSpeed = SPEED_NORMAL);
+    wrap.addEventListener('touchstart',  () => targetSpeed = SPEED_FAST,   { passive: true });
+    wrap.addEventListener('touchend',    () => targetSpeed = SPEED_NORMAL, { passive: true });
+    wrap.addEventListener('touchcancel', () => targetSpeed = SPEED_NORMAL, { passive: true });
+
+    function tick() {
+        speed    += (targetSpeed - speed) * LERP;
+        position -= speed;
+        if (halfWidth > 0 && position <= -halfWidth) position += halfWidth;
+        track.style.transform = `translateX(${position}px)`;
+        requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+})();
