@@ -205,14 +205,24 @@ body::after {
         display: flex;
         justify-content: center;
         margin: 2rem 0 0;
+        position: relative;
+    }
+
+    .about-mobile-photo::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: linear-gradient(to bottom, transparent, #0a0e17);
+        pointer-events: none;
     }
 
     .about-photo-mobile {
         display: block;
         width: clamp(180px, 60vw, 300px);
         margin: 0 auto;
-        -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-        mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
     }
 
     .about-mobile .about-stats {
@@ -1409,6 +1419,37 @@ body::after {
 }
 
 /* Contact links */
+.contact-link-email--inline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-decoration: none;
+    margin-top: 1.25rem;
+}
+
+.cv-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(125,211,252,0.07);
+    border: 1px solid rgba(125,211,252,0.25);
+    border-radius: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.cv-download-btn:hover {
+    background: rgba(125,211,252,0.13);
+    border-color: rgba(125,211,252,0.5);
+    color: #fff;
+}
+
 .contact-links {
     display: flex;
     align-items: center;
