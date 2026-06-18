@@ -48,6 +48,12 @@ body::after {
     will-change: background-position;
 }
 
+@media (max-width: 750px) {
+    body::after {
+        display: none;
+    }
+}
+
 @keyframes grainMove {
     0%   { transform: translate(0,    0);    }
     14%  { transform: translate(-4%,  3%);   }
