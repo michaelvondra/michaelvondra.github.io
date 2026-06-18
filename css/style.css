@@ -1752,4 +1752,8 @@ body::after {
     .photo-gallery-btn {
         display: flex;
     }
+
+    .work-category {
+        margin-bottom: 2.5rem;
+    }
 }
