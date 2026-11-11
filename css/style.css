@@ -1417,6 +1417,36 @@ body::after {
     letter-spacing: 0.03em;
 }
 
+/* Přebije výchozí zelený styl, který vkládá knihovna Formspree */
+.form-success[data-fs-success][data-fs-active] {
+    display: block;
+    padding: 1.25rem 2rem;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+}
+
+.form-success[data-fs-success][data-fs-active] p {
+    color: var(--bg);
+    font-weight: 500;
+}
+
+/* Chybová bublina — tmavě červená místo výchozí růžové od Formspree */
+.form-error-global[data-fs-error=""][data-fs-active] {
+    display: block;
+    width: 100%;
+    padding: 1.25rem 2rem;
+    background: #7f1d1d;
+    border: 1px solid #991b1b;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    color: #fee2e2;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
 /* Contact links */
 .contact-link-email--inline {
     display: flex;
