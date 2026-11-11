@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Vondra — Portfolio</title>
+    <meta name="description" content="Portfolio Michaela Vondry — Creative Producer &amp; Videotvůrce.">
+    <link rel="icon" type="image/svg+xml" href="/assets/images/monogram.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <style>
+        .lock {
+            min-height: 100vh;
+            min-height: 100svh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 16px;
+        }
+        .lock-form {
+            width: 100%;
+            max-width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .lock-form .form-field label {
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(240,240,240,0.7);
+            margin-bottom: 0.4rem;
+        }
+        .lock-form .form-field input {
+            text-align: center;
+            letter-spacing: 0.08em;
+        }
+        .lock-error {
+            min-height: 1.2em;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #fca5a5;
+        }
+        .lock-form.is-shaking { animation: lockShake 0.35s ease; }
+        @keyframes lockShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+    </style>
+</head>
+<body>
+    <main class="lock">
+        <form class="lock-form" id="lock-form" autocomplete="off">
+            <div class="form-field">
+                <label for="password">Zadejte heslo:</label>
+                <input type="password" id="password" name="password" required autofocus>
+            </div>
+            <p class="lock-error" id="lock-error" role="alert"></p>
+            <button type="submit" class="form-submit">Vstoupit</button>
+        </form>
+    </main>
+
+    <script>
+    (function () {
+        // Adresa portfolia se počítá z hesla — v kódu není uložené heslo ani cílová adresa.
+        const STORAGE_KEY = 'mv-portfolio';
+        const form  = document.getElementById('lock-form');
+        const input = document.getElementById('password');
+        const error = document.getElementById('lock-error');
+
+        async function slugFor(password) {
+            const data = new TextEncoder().encode('mv-portfolio:' + password);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 12);
+        }
+
+        async function exists(slug) {
+            try {
+                const res = await fetch('/portfolio/' + slug + '/', { method: 'HEAD', cache: 'no-store' });
+                return res.ok;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function go(slug) {
+            window.location.replace('/portfolio/' + slug + '/');
+        }
+
+        // Zapamatované heslo — rovnou pustit dál
+        let saved = null;
+        try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+        if (saved) {
+            exists(saved).then(ok => {
+                if (ok) go(saved);
+                else { try { localStorage.removeItem(STORAGE_KEY); } catch (e) {} }
+            });
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            error.textContent = '';
+            const slug = await slugFor(input.value.trim());
+            if (await exists(slug)) {
+                try { localStorage.setItem(STORAGE_KEY, slug); } catch (e) {}
+                go(slug);
+            } else {
+                error.textContent = 'Špatné heslo';
+                input.select();
+                form.classList.remove('is-shaking');
+                void form.offsetWidth;
+                form.classList.add('is-shaking');
+            }
+        });
+    })();
+    </script>
+</body>
+</html>

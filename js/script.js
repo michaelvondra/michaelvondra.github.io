@@ -301,7 +301,7 @@ document.addEventListener('keydown', e => {
 const eventCards = [
     {
         type: 'photo',
-        img: 'assets/images/signify/signify_01.jpg',
+        img: '/assets/images/signify/signify_01.jpg',
         placeholder: null,
         title: 'Signify',
         sub: 'Fotodokumentace architektonického eventu',
@@ -309,7 +309,7 @@ const eventCards = [
         videoType: null, videoId: null,
         desc: 'Focení za náročných podmínek: venku, za tmy, s osvětlenými budovami jako hlavním motivem a lidmi v pohybu kolem. K tomu interiérové záběry z prezentace a večeře — opět za nízkého světla. Výsledek? Série fotek, které zachycují atmosféru večera přesně tak, jak ho zažili účastníci.',
         credit: null,
-        photos: ['assets/images/signify/signify_01.jpg','assets/images/signify/signify_02.jpg','assets/images/signify/signify_03.jpg','assets/images/signify/signify_04.jpg','assets/images/signify/signify_05.jpg','assets/images/signify/signify_06.jpg','assets/images/signify/signify_07.jpg','assets/images/signify/signify_08.jpg','assets/images/signify/signify_09.jpg','assets/images/signify/signify_10.jpg','assets/images/signify/signify_11.jpg']
+        photos: ['/assets/images/signify/signify_01.jpg','/assets/images/signify/signify_02.jpg','/assets/images/signify/signify_03.jpg','/assets/images/signify/signify_04.jpg','/assets/images/signify/signify_05.jpg','/assets/images/signify/signify_06.jpg','/assets/images/signify/signify_07.jpg','/assets/images/signify/signify_08.jpg','/assets/images/signify/signify_09.jpg','/assets/images/signify/signify_10.jpg','/assets/images/signify/signify_11.jpg']
     },
     {
         type: 'video',
@@ -325,7 +325,7 @@ const eventCards = [
     },
     {
         type: 'photo',
-        img: 'assets/images/korzo/korzo_01.jpg',
+        img: '/assets/images/korzo/korzo_01.jpg',
         placeholder: null,
         title: 'Korzo Národní',
         sub: 'Fotodokumentace — Díky že Můžem',
@@ -333,7 +333,7 @@ const eventCards = [
         videoType: null, videoId: null,
         desc: 'Jeden den, stovky momentů, desítky různých akcí. Jako jeden z fotografů celé události jsem měl za úkol zachytit atmosféru oslav 17. listopadu na Národní třídě — lidi, emoce, různá pódia i prostory. Během jediného dne jsem nafotil, upravil a dodal přes 250 fotek, protože aktuálnost zde byla klíčová.',
         credit: null,
-        photos: ['assets/images/korzo/korzo_01.jpg','assets/images/korzo/korzo_02.jpg','assets/images/korzo/korzo_03.jpg','assets/images/korzo/korzo_04.jpg','assets/images/korzo/korzo_05.jpg','assets/images/korzo/korzo_06.jpg','assets/images/korzo/korzo_07.jpg','assets/images/korzo/korzo_08.jpg','assets/images/korzo/korzo_09.jpg','assets/images/korzo/korzo_10.jpg','assets/images/korzo/korzo_11.jpg']
+        photos: ['/assets/images/korzo/korzo_01.jpg','/assets/images/korzo/korzo_02.jpg','/assets/images/korzo/korzo_03.jpg','/assets/images/korzo/korzo_04.jpg','/assets/images/korzo/korzo_05.jpg','/assets/images/korzo/korzo_06.jpg','/assets/images/korzo/korzo_07.jpg','/assets/images/korzo/korzo_08.jpg','/assets/images/korzo/korzo_09.jpg','/assets/images/korzo/korzo_10.jpg','/assets/images/korzo/korzo_11.jpg']
     }
 ];
 
