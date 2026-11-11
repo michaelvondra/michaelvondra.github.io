@@ -1,0 +1,427 @@
+/* YORD — Project Page (AI Experience Center)
+   Rozměry jsou ve 1440px souřadnicích Figmy:
+   --u = 1px × S (obsah), --q = 1px × k (full-bleed, k = šířka okna / 1440) */
+
+@font-face { font-family: "Arca Majora 3"; src: url("/yord/project_pages/assets/fonts/ArcaMajora3-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Arca Majora 3"; src: url("/yord/project_pages/assets/fonts/ArcaMajora3-Heavy.woff2") format("woff2"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Jost"; src: url("/yord/project_pages/assets/fonts/Jost-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Jost"; src: url("/yord/project_pages/assets/fonts/Jost-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Jost"; src: url("/yord/project_pages/assets/fonts/Jost-ExtraBold.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+
+:root {
+  --s: 1;
+  --k: 1;
+  --u: calc(var(--s) * 1px);
+  --q: calc(var(--k) * 1px);
+
+  --white: #faf6f7;
+  --light-grey: #c0b9bb;
+  --grey: #8f8f8f;
+  --pink: #ec2555;
+  --black: #070707;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-display: "Arca Majora 3", "Jost", sans-serif;
+  --font-body: "Jost", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #000; overflow-x: clip; }
+body {
+  color: var(--white);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img { display: block; }
+a { color: inherit; text-decoration: none; }
+em { font-style: normal; color: var(--pink); }
+
+/* Text ořezaný na výšku verzálek a účaří — jako „text-box trim“ ve Figmě */
+.trim { text-box: trim-both cap alphabetic; }
+
+/* ===== Sekce ===== */
+.page { position: relative; }
+.sec { position: relative; width: 100%; }
+/* Pozadí (záře, gradienty) leží pod veškerým obsahem napříč sekcemi */
+.bg { position: absolute; z-index: 0; pointer-events: none; }
+.sec > *:not(.bg) { position: absolute; z-index: 1; }
+
+/* ===== Typografie ===== */
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(32 * var(--u));
+  line-height: calc(45 * var(--u));
+  letter-spacing: 0.02em;
+  color: var(--white);
+  text-shadow: 0 calc(4 * var(--u)) calc(28 * var(--u)) rgba(0, 0, 0, .8);
+}
+.body {
+  font-size: calc(16 * var(--u));
+  line-height: calc(24 * var(--u));
+  letter-spacing: 0.05em;
+  color: var(--light-grey);
+  text-shadow: 0 calc(4 * var(--u)) calc(28 * var(--u)) rgba(0, 0, 0, .8);
+}
+.body--white { color: var(--white); }
+.subtitle {
+  font-size: calc(24 * var(--u));
+  line-height: calc(32 * var(--u));
+  color: var(--light-grey);
+}
+
+.bg-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: calc(130.651 * var(--u));
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, rgba(147, 147, 147, .2), rgba(236, 37, 85, .2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  user-select: none;
+}
+
+.text-block { display: flex; flex-direction: column; gap: calc(24 * var(--u)); }
+
+/* ===== Tlačítka ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(10 * var(--u));
+  padding: calc(20 * var(--u)) calc(32 * var(--u));
+  border-radius: calc(100 * var(--u));
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(16 * var(--u));
+  line-height: calc(22 * var(--u));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--white);
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease, filter .25s ease;
+}
+.btn__label { text-box: trim-both cap alphabetic; }
+.btn--pink { background: var(--pink); }
+.btn--pink:hover { filter: brightness(1.12); }
+.btn--outline { border: max(1px, calc(1 * var(--u))) solid var(--white); width: calc(314 * var(--u)); }
+.btn--outline:hover { background: var(--white); color: #000; }
+
+/* „White glass“ efekt z Figmy */
+.glass, .btn--glass {
+  background: rgba(255, 255, 255, .035);
+  -webkit-backdrop-filter: blur(calc(13 * var(--u)));
+  backdrop-filter: blur(calc(13 * var(--u)));
+  box-shadow:
+    inset 0 calc(-10 * var(--u)) calc(9.3 * var(--u)) rgba(255, 255, 255, .25),
+    inset 0 0 0 max(1px, calc(1 * var(--u))) rgba(255, 255, 255, .14);
+}
+.btn--glass:hover { background: rgba(255, 255, 255, .18); }
+
+/* ===== 01 Hero ===== */
+.hero { height: calc(1023 * var(--u)); overflow: hidden; }
+.hero__media {
+  width: calc(1920 * var(--q));
+  height: calc(1080 * var(--u));
+  left: calc(50% + 61 * var(--q));
+  top: calc(-13 * var(--u));
+  transform: translateX(-50%);
+  isolation: isolate;
+}
+.hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero__shade { position: absolute; inset: 0; }
+.hero__shade--radial {
+  mix-blend-mode: darken;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 1920 1080' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='0.69'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(-0.1 35.9 -98.324 -0.27389 465 721)'><stop stop-color='rgba(0,0,0,0.74)' offset='0.52132'/><stop stop-color='rgba(13,13,13,0.6475)' offset='0.58115'/><stop stop-color='rgba(26,26,26,0.555)' offset='0.64099'/><stop stop-color='rgba(51,51,51,0.37)' offset='0.76066'/><stop stop-color='rgba(102,102,102,0)' offset='1'/></radialGradient></defs></svg>");
+  background-size: 100% 100%;
+}
+.hero__shade--linear {
+  mix-blend-mode: multiply;
+  background-image: linear-gradient(55.86deg, rgba(0, 0, 0, .118) 27.161%, rgba(255, 255, 255, .31) 60.402%);
+}
+
+.nav {
+  top: calc(33 * var(--u));
+  left: calc(50% - 6.5 * var(--u));
+  transform: translateX(-50%);
+  width: calc(765 * var(--u));
+  height: calc(54 * var(--u));
+  padding: 0 calc(30 * var(--u));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: calc(60 * var(--u));
+  background: rgba(7, 7, 7, .4);
+  -webkit-backdrop-filter: blur(calc(16.7 * var(--u)));
+  backdrop-filter: blur(calc(16.7 * var(--u)));
+}
+/* Obrys s gradientem „Red-black gradient“: růžová vlevo nahoře → černá vpravo dole */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: max(1px, calc(1 * var(--u)));
+  background: linear-gradient(331.6deg, var(--black) 0%, var(--pink) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+.nav__logo img { width: calc(58 * var(--u)); height: calc(16 * var(--u)); object-fit: cover; }
+.nav__item, .nav__cta {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: calc(9.715 * var(--u));
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--white);
+  transition: opacity .2s ease, filter .2s ease;
+}
+.nav__item:hover { opacity: .65; }
+.nav__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(94 * var(--u));
+  height: calc(32 * var(--u));
+  border-radius: calc(80 * var(--u));
+  border: max(1px, calc(1 * var(--u))) solid var(--black);
+  background: var(--pink);
+}
+.nav__cta:hover { filter: brightness(1.12); }
+
+.hero__text {
+  left: calc(50% + (122 - 720) * var(--u));
+  top: calc(573 * var(--u));
+  width: calc(488 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(16 * var(--u));
+}
+.hero__btn { width: calc(268 * var(--u)); height: calc(52 * var(--u)); padding-top: 0; padding-bottom: 0; }
+.icon-play { position: relative; display: block; width: calc(26 * var(--u)); height: calc(28 * var(--u)); }
+.icon-play img {
+  position: absolute;
+  /* trojúhelník 28×26 otočený o 90° (insety z Figmy) */
+  width: calc(28 * 0.752 * var(--u));
+  height: calc(26 * 0.6812 * var(--u));
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) translateX(calc(-1.2 * var(--u))) rotate(90deg);
+}
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(40 * var(--u));
+  line-height: calc(50 * var(--u));
+  letter-spacing: 0.02em;
+  text-shadow: calc(1 * var(--u)) calc(2 * var(--u)) calc(10 * var(--u)) rgba(0, 0, 0, .3);
+  white-space: nowrap;
+}
+.hero__meta {
+  font-size: calc(24 * var(--u));
+  line-height: calc(32 * var(--u));
+  color: var(--light-grey);
+  text-shadow: 0 calc(4 * var(--u)) calc(28 * var(--u)) rgba(0, 0, 0, .8);
+  white-space: nowrap;
+}
+
+/* ===== 02 Challenge ===== */
+.challenge { height: calc(675 * var(--u)); }
+.challenge .bg-title { left: calc(50% + (-13 - 720) * var(--u)); top: calc(348 * var(--u)); }
+.challenge__text { left: calc(50% + (120 - 720) * var(--u)); top: calc(235 * var(--u)); width: calc(561 * var(--u)); }
+
+/* ===== 03 Gallery ===== */
+.gallery { height: calc(397 * var(--q)); }
+.gallery__track {
+  left: calc(-40 * var(--q));
+  top: 0;
+  display: flex;
+  gap: calc(64 * var(--q));
+  will-change: transform;
+}
+.gallery__item { position: relative; flex: none; width: calc(530 * var(--q)); height: calc(397 * var(--q)); overflow: hidden; background: #fff; }
+.gallery__item img { position: absolute; max-width: none; }
+.gallery__item--1 img { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 25% bottom; } /* výřez bez šedého sloupu u pravého okraje fotky */
+.gallery__item--2 img { width: 101.92%; height: 181.42%; left: -0.98%; top: -30.51%; }
+.gallery__item--3 img { width: 137.89%; height: 103.55%; left: -19.25%; top: -1.76%; }
+
+/* Záře pod galerií */
+.bg--glow-gallery {
+  left: 0;
+  width: calc(1732 * var(--q));
+  top: calc(-126 * var(--u));
+  bottom: calc(-94 * var(--u));
+}
+.glow { position: absolute; isolation: isolate; }
+.bg--glow-gallery .glow { inset: -13.29% 0 0 0; opacity: .75; }
+.glow__crop { position: absolute; inset: 0; overflow: hidden; }
+.bg--glow-gallery .glow__crop img { position: absolute; left: 0; top: -34.64%; width: 100%; height: 169.27%; }
+.glow__tint { position: absolute; inset: 0; background: var(--pink); mix-blend-mode: color; }
+.glow__fade { position: absolute; inset: 0; }
+.bg--glow-gallery .glow__fade {
+  background-image:
+    linear-gradient(184.17deg, rgba(0, 0, 0, 0) 45.676%, #000 78.899%),
+    linear-gradient(175.94deg, #000 14.617%, rgba(0, 0, 0, 0) 40.008%);
+}
+
+/* Gradient za sekcí Results (ukotven ke galerii a začátku fotky A) */
+.bg--gradient-results {
+  left: calc(-416 * var(--q));
+  width: calc(2135 * var(--q));
+  top: calc(285 * var(--q));
+  bottom: calc(-990 * var(--u)); /* Results 843 + 147 */
+  mix-blend-mode: screen;
+}
+.bg--gradient-results img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .34; }
+.gradient-results__fade { position: absolute; inset: 0; background: linear-gradient(to bottom, #000 16.265%, rgba(0, 0, 0, 0) 26.581%); }
+
+/* ===== 04 Results ===== */
+.results { height: calc(843 * var(--u)); } /* o 100 kratší než Figma — menší mezera nad fotkou A */
+.results .bg-title { left: calc(50% + (525 - 720) * var(--u)); top: calc(314 * var(--u)); }
+.results__content {
+  left: calc(50% + (120 - 720) * var(--u));
+  top: calc(331 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(56 * var(--u));
+}
+.results__text { width: calc(505 * var(--u)); }
+.results__heading { width: calc(437 * var(--u)); }
+.stats {
+  width: calc(639 * var(--u));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(16 * var(--u));
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(16 * var(--u));
+  padding: calc(32 * var(--u));
+  border-radius: calc(32 * var(--u));
+  text-align: center;
+}
+.stat__value {
+  width: 100%;
+  height: calc(50 * var(--u));
+  overflow: hidden;
+  font-weight: 800;
+  font-size: calc(62 * var(--u));
+  line-height: calc(50 * var(--u));
+  font-variant-numeric: tabular-nums;
+  color: var(--white);
+}
+.stat__value--pink { color: var(--pink); }
+.stat__label {
+  width: 100%;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(16 * var(--u));
+  line-height: calc(22 * var(--u));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+
+/* ===== 05 / 08 Full-bleed fotky ===== */
+.bleed { overflow: hidden; position: relative; }
+.bleed img { position: absolute; z-index: 1; top: 0; height: 100%; object-fit: cover; max-width: none; }
+/* Parallaxa: celý rám s fotkou se posouvá rychleji než stránka (JS), fotka v rámu stojí.
+   z-index 2 = rám při posunu překryje okraje sousedních sekcí */
+.bleed { z-index: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .bleed { will-change: transform; }
+}
+.bleed--a { height: calc(1024 * var(--u)); }
+.bleed--a img { left: calc(-196 * var(--q)); width: calc(1820.444 * var(--q)); }
+.bleed--b { height: calc(955 * var(--u)); }
+.bleed--b img { left: calc(-121 * var(--q)); width: calc(1698 * var(--q)); }
+
+/* ===== 06 Testimonial ===== */
+.testimonial { height: calc(747 * var(--u)); } /* obsah posunut o 100 výš — menší mezera pod fotkou A */
+.testimonial .bg-title { left: calc(50% + (137 - 720) * var(--u)); top: calc(299 * var(--u)); }
+.testimonial__quote {
+  left: 0;
+  right: 0;
+  top: calc(278 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(32 * var(--u));
+}
+.quote {
+  width: calc(752 * var(--u));
+  font-size: calc(24 * var(--u));
+  line-height: calc(32 * var(--u));
+  text-align: center;
+  color: var(--white);
+}
+.quote strong { font-weight: 700; color: var(--pink); }
+
+/* ===== 07 Ideas ===== */
+.ideas { height: calc(1108 * var(--u)); } /* o 120 kratší — menší mezera nad fotkou B */
+.bg--glow-ideas {
+  left: calc(-222 * var(--q));
+  width: calc(1799 * var(--q));
+  top: calc(-289 * var(--u));
+  height: calc(1390 * var(--u));
+}
+.bg--glow-ideas .glow { top: 0; bottom: 0; left: 2.61%; right: -2.61%; opacity: .54; }
+.bg--glow-ideas .glow img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bg--glow-ideas .glow__fade {
+  background-image:
+    linear-gradient(-8.41deg, #000 18.423%, rgba(0, 0, 0, 0) 50.027%),
+    linear-gradient(190.21deg, #000 18.941%, rgba(0, 0, 0, 0) 48.343%);
+}
+.ideas__content {
+  left: calc(50% + (112 - 720) * var(--u));
+  top: calc(187 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(75 * var(--u));
+}
+.ideas__text { width: calc(533 * var(--u)); }
+.ideas__image { width: calc(640 * var(--u)); height: calc(640 * var(--u)); background: #fff; }
+.ideas__image img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ===== 09 CTA ===== */
+.cta { height: calc(788 * var(--u)); } /* obsah o 100 výš — menší mezera pod fotkou B */
+.cta__content {
+  left: 0;
+  right: 0;
+  top: calc(182 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(64 * var(--u));
+  text-align: center;
+}
+.cta__heading { display: flex; flex-direction: column; align-items: center; gap: calc(32 * var(--u)); white-space: nowrap; }
+.cta .h2 { text-shadow: none; }
+.cta__buttons { display: flex; justify-content: center; gap: calc(64 * var(--u)); }
+
+/* ===== Animace (jen když běží JS a uživatel nemá vypnutý pohyb) ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(calc(32 * var(--u)));
+    transition:
+      opacity .7s var(--ease-out) var(--d, 0s),
+      transform .7s var(--ease-out) var(--d, 0s),
+      background-color .25s ease, color .25s ease, filter .25s ease;
+  }
+  .js .is-in [data-reveal] { opacity: 1; transform: none; }
+
+  /* Typewriter citace — znaky drží místo, jen se postupně zviditelňují */
+  .js .tw-char { visibility: hidden; }
+  .js .tw-char.is-typed { visibility: visible; }
+}
