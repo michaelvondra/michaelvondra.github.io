@@ -46,6 +46,7 @@ em { font-style: normal; color: var(--pink); }
 /* Pozadí (záře, gradienty) leží pod veškerým obsahem napříč sekcemi */
 .bg { position: absolute; z-index: 0; pointer-events: none; }
 .sec > *:not(.bg) { position: absolute; z-index: 1; }
+.sec > .bg-title { z-index: 0; } /* velké nápisy pod grainem */
 
 /* ===== Typografie ===== */
 .h2 {
@@ -263,7 +264,21 @@ em { font-style: normal; color: var(--pink); }
 .glow { position: absolute; isolation: isolate; }
 .bg--glow-gallery .glow { inset: -13.29% 0 0 0; opacity: .75; }
 .glow__crop { position: absolute; inset: 0; overflow: hidden; }
-.bg--glow-gallery .glow__crop img { position: absolute; left: 0; top: -34.64%; width: 100%; height: 169.27%; }
+.bg--glow-gallery .glow__shape { position: absolute; left: 0; top: -34.64%; width: 100%; height: 169.27%; }
+
+/* Záře a gradienty v pozadí jsou místo obrázků čisté CSS přechody (ostré v každém rozlišení).
+   Tvar je napasovaný na původní obrázky z Figmy; vrstvy se sčítají přes „screen“. */
+.glow__shape, .gradient-results__shape { background-color: #000; background-blend-mode: screen; }
+.bg--glow-gallery .glow__shape {
+  background-image:
+        radial-gradient(ellipse 79.7% 57.9% at 77.6% 60.2%, rgb(45.7 45.7 45.7) 0.0%, rgb(45.2 45.2 45.2) 6.2%, rgb(42.5 42.5 42.5) 12.5%, rgb(38.1 38.1 38.1) 18.8%, rgb(32.4 32.4 32.4) 25.0%, rgb(26.3 26.3 26.3) 31.2%, rgb(20.3 20.3 20.3) 37.5%, rgb(14.9 14.9 14.9) 43.7%, rgb(10.4 10.4 10.4) 50.0%, rgb(6.9 6.9 6.9) 56.2%, rgb(4.4 4.4 4.4) 62.5%, rgb(2.6 2.6 2.6) 68.8%, rgb(1.5 1.5 1.5) 75.0%, rgb(0.8 0.8 0.8) 81.2%, rgb(0.4 0.4 0.4) 87.5%, rgb(0.2 0.2 0.2) 93.8%, rgb(0.1 0.1 0.1) 100.0%),
+    radial-gradient(ellipse 40.0% 51.8% at 99.3% 87.6%, rgb(49.0 49.0 49.0) 0.0%, rgb(50.0 50.0 50.0) 6.2%, rgb(48.4 48.4 48.4) 12.5%, rgb(44.4 44.4 44.4) 18.8%, rgb(38.6 38.6 38.6) 25.0%, rgb(31.8 31.8 31.8) 31.2%, rgb(24.8 24.8 24.8) 37.5%, rgb(18.4 18.4 18.4) 43.8%, rgb(12.9 12.9 12.9) 50.0%, rgb(8.6 8.6 8.6) 56.2%, rgb(5.4 5.4 5.4) 62.5%, rgb(3.2 3.2 3.2) 68.8%, rgb(1.8 1.8 1.8) 75.0%, rgb(1.0 1.0 1.0) 81.2%, rgb(0.5 0.5 0.5) 87.5%, rgb(0.2 0.2 0.2) 93.8%, rgb(0.1 0.1 0.1) 100.0%),
+    radial-gradient(ellipse 138.6% 210.7% at 75.7% 103.6%, rgb(1.2 1.2 1.2) 0.0%, rgb(2.4 2.4 2.4) 6.2%, rgb(4.2 4.2 4.2) 12.5%, rgb(6.4 6.4 6.4) 18.7%, rgb(8.7 8.7 8.7) 25.0%, rgb(10.5 10.5 10.5) 31.2%, rgb(11.1 11.1 11.1) 37.5%, rgb(10.5 10.5 10.5) 43.8%, rgb(8.7 8.7 8.7) 50.0%, rgb(6.4 6.4 6.4) 56.2%, rgb(4.2 4.2 4.2) 62.5%, rgb(2.4 2.4 2.4) 68.8%, rgb(1.2 1.2 1.2) 75.0%, rgb(0.6 0.6 0.6) 81.2%, rgb(0.2 0.2 0.2) 87.5%, rgb(0.1 0.1 0.1) 93.8%, rgb(0.0 0.0 0.0) 100.0%);
+}
+
+/* Jemný grain — malá dlaždice šumu, vždy 1 : 1, takže je ostrý na každém monitoru */
+.grain { position: absolute; inset: 0; background: url("/yord/project_pages/assets/img/grain.png?v=2") repeat; background-size: 256px 256px; mix-blend-mode: soft-light; } /* šedý šum kolem 50 % — zrní jen světlá místa, nic nezesvětluje */
+@media (min-resolution: 2dppx) { .grain { background-size: 128px 128px; } }
 .glow__tint { position: absolute; inset: 0; background: var(--pink); mix-blend-mode: color; }
 .glow__fade { position: absolute; inset: 0; }
 .bg--glow-gallery .glow__fade {
@@ -280,7 +295,17 @@ em { font-style: normal; color: var(--pink); }
   bottom: calc(-990 * var(--u)); /* Results 843 + 147 */
   mix-blend-mode: screen;
 }
-.bg--gradient-results img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .34; }
+.bg--gradient-results { container-type: size; }
+/* Obdoba object-fit: cover pro poměr stran původního obrázku 1024 × 618 */
+.gradient-results__shape {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: max(100cqw, 100cqh * 1.657); aspect-ratio: 1024 / 618;
+  opacity: .34;
+  background-image:
+        radial-gradient(ellipse 88.7% 59.6% at 78.2% 58.9%, rgb(17.1 17.1 17.1) 0.0%, rgb(16.7 16.7 16.7) 6.2%, rgb(15.5 15.5 15.5) 12.5%, rgb(13.8 13.8 13.8) 18.8%, rgb(11.6 11.6 11.6) 25.0%, rgb(9.4 9.4 9.4) 31.2%, rgb(7.2 7.2 7.2) 37.5%, rgb(5.3 5.3 5.3) 43.8%, rgb(3.7 3.7 3.7) 50.0%, rgb(2.5 2.5 2.5) 56.2%, rgb(1.6 1.6 1.6) 62.5%, rgb(0.9 0.9 0.9) 68.8%, rgb(0.5 0.5 0.5) 75.0%, rgb(0.3 0.3 0.3) 81.2%, rgb(0.2 0.2 0.2) 87.5%, rgb(0.1 0.1 0.1) 93.8%, rgb(0.0 0.0 0.0) 100.0%),
+    radial-gradient(ellipse 39.5% 54.0% at 98.9% 88.0%, rgb(20.8 20.8 20.8) 0.0%, rgb(20.8 20.8 20.8) 6.2%, rgb(19.8 19.8 19.8) 12.5%, rgb(17.9 17.9 17.9) 18.8%, rgb(15.4 15.4 15.4) 25.0%, rgb(12.5 12.5 12.5) 31.2%, rgb(9.7 9.7 9.7) 37.5%, rgb(7.2 7.2 7.2) 43.8%, rgb(5.0 5.0 5.0) 50.0%, rgb(3.3 3.3 3.3) 56.2%, rgb(2.1 2.1 2.1) 62.5%, rgb(1.3 1.3 1.3) 68.8%, rgb(0.7 0.7 0.7) 75.0%, rgb(0.4 0.4 0.4) 81.3%, rgb(0.2 0.2 0.2) 87.5%, rgb(0.1 0.1 0.1) 93.7%, rgb(0.0 0.0 0.0) 100.0%),
+    radial-gradient(ellipse 411.0% 131.3% at -150.0% 30.0%, #000 0%, rgb(0.0 0.0 0.0) 11.2%, rgb(0.0 0.0 0.0) 16.7%, rgb(0.1 0.1 0.1) 22.3%, rgb(0.4 0.4 0.4) 27.8%, rgb(0.9 0.9 0.9) 33.4%, rgb(1.8 1.8 1.8) 38.9%, rgb(2.9 2.9 2.9) 44.5%, rgb(3.9 3.9 3.9) 50.0%, rgb(4.3 4.3 4.3) 55.6%, rgb(3.9 3.9 3.9) 61.1%, rgb(2.9 2.9 2.9) 66.7%, rgb(1.8 1.8 1.8) 72.2%, rgb(0.9 0.9 0.9) 77.8%, rgb(0.4 0.4 0.4) 83.3%, rgb(0.1 0.1 0.1) 88.9%, rgb(0.0 0.0 0.0) 94.4%, rgb(0.0 0.0 0.0) 100.0%);
+}
 .gradient-results__fade { position: absolute; inset: 0; background: linear-gradient(to bottom, #000 16.265%, rgba(0, 0, 0, 0) 26.581%); }
 
 /* ===== 04 Results ===== */
@@ -347,12 +372,12 @@ em { font-style: normal; color: var(--pink); }
 .bleed--b img { left: calc(-121 * var(--q)); width: calc(1698 * var(--q)); }
 
 /* ===== 06 Testimonial ===== */
-.testimonial { height: calc(747 * var(--u)); } /* obsah posunut o 100 výš — menší mezera pod fotkou A */
-.testimonial .bg-title { left: calc(50% + (137 - 720) * var(--u)); top: calc(299 * var(--u)); }
+.testimonial { height: calc(587 * var(--u)); } /* vůči Figmě: obsah o 160 výš, sekce o 260 nižší — menší mezery před i za citací */
+.testimonial .bg-title { left: calc(50% + (137 - 720) * var(--u)); top: calc(239 * var(--u)); }
 .testimonial__quote {
   left: 0;
   right: 0;
-  top: calc(278 * var(--u));
+  top: calc(218 * var(--u));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -368,7 +393,7 @@ em { font-style: normal; color: var(--pink); }
 .quote strong { font-weight: 700; color: var(--pink); }
 
 /* ===== 07 Ideas ===== */
-.ideas { height: calc(1108 * var(--u)); } /* o 120 kratší — menší mezera nad fotkou B */
+.ideas { height: calc(1060 * var(--u)); } /* obsah 140–780, pod ním ~280 mezera k fotce B */
 .bg--glow-ideas {
   left: calc(-222 * var(--q));
   width: calc(1799 * var(--q));
@@ -376,29 +401,58 @@ em { font-style: normal; color: var(--pink); }
   height: calc(1390 * var(--u));
 }
 .bg--glow-ideas .glow { top: 0; bottom: 0; left: 2.61%; right: -2.61%; opacity: .54; }
-.bg--glow-ideas .glow img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bg--glow-ideas .glow { container-type: size; overflow: hidden; }
+/* Obdoba object-fit: cover pro poměr stran původního obrázku 3126 × 1885 */
+.bg--glow-ideas .glow__shape {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: max(100cqw, 100cqh * 1.6584); aspect-ratio: 3126 / 1885;
+  background-image:
+        radial-gradient(ellipse 27.3% 69.9% at 58.6% 56.9%, rgb(40.9 40.9 40.9) 0.0%, rgb(42.5 42.5 42.5) 6.2%, rgb(41.7 41.7 41.7) 12.5%, rgb(38.7 38.7 38.7) 18.7%, rgb(34.0 34.0 34.0) 25.0%, rgb(28.2 28.2 28.2) 31.2%, rgb(22.2 22.2 22.2) 37.5%, rgb(16.5 16.5 16.5) 43.8%, rgb(11.6 11.6 11.6) 50.0%, rgb(7.7 7.7 7.7) 56.2%, rgb(4.8 4.8 4.8) 62.5%, rgb(2.9 2.9 2.9) 68.8%, rgb(1.6 1.6 1.6) 75.0%, rgb(0.9 0.9 0.9) 81.2%, rgb(0.4 0.4 0.4) 87.5%, rgb(0.2 0.2 0.2) 93.8%, rgb(0.1 0.1 0.1) 100.0%),
+    radial-gradient(ellipse 252.6% 149.9% at -150.0% 68.9%, #000 0%, rgb(0.1 0.1 0.1) 68.2%, rgb(0.5 0.5 0.5) 70.2%, rgb(1.8 1.8 1.8) 72.2%, rgb(5.3 5.3 5.3) 74.1%, rgb(12.5 12.5 12.5) 76.1%, rgb(24.4 24.4 24.4) 78.1%, rgb(39.4 39.4 39.4) 80.1%, rgb(52.6 52.6 52.6) 82.1%, rgb(57.8 57.8 57.8) 84.1%, rgb(52.6 52.6 52.6) 86.1%, rgb(39.4 39.4 39.4) 88.1%, rgb(24.4 24.4 24.4) 90.1%, rgb(12.5 12.5 12.5) 92.0%, rgb(5.3 5.3 5.3) 94.0%, rgb(1.8 1.8 1.8) 96.0%, rgb(0.5 0.5 0.5) 98.0%, rgb(0.1 0.1 0.1) 100.0%),
+    radial-gradient(ellipse 1575.0% 506.4% at 146.2% -150.0%, rgb(50.2 50.2 50.2) 0.0%, rgb(49.0 49.0 49.0) 6.2%, rgb(45.6 45.6 45.6) 12.5%, rgb(40.5 40.5 40.5) 18.8%, rgb(34.2 34.2 34.2) 25.0%, rgb(27.6 27.6 27.6) 31.2%, rgb(21.2 21.2 21.2) 37.5%, rgb(15.6 15.6 15.6) 43.8%, rgb(10.9 10.9 10.9) 50.0%, rgb(7.2 7.2 7.2) 56.2%, rgb(4.6 4.6 4.6) 62.5%, rgb(2.8 2.8 2.8) 68.8%, rgb(1.6 1.6 1.6) 75.0%, rgb(0.9 0.9 0.9) 81.2%, rgb(0.5 0.5 0.5) 87.5%, rgb(0.2 0.2 0.2) 93.8%, rgb(0.1 0.1 0.1) 100.0%);
+}
 .bg--glow-ideas .glow__fade {
   background-image:
     linear-gradient(-8.41deg, #000 18.423%, rgba(0, 0, 0, 0) 50.027%),
     linear-gradient(190.21deg, #000 18.941%, rgba(0, 0, 0, 0) 48.343%);
 }
+/* Varianta B: velká fotka vpravo, přes její levý okraj skleněná karta s textem */
 .ideas__content {
-  left: calc(50% + (112 - 720) * var(--u));
-  top: calc(187 * var(--u));
-  display: flex;
-  align-items: center;
-  gap: calc(75 * var(--u));
+  left: calc(50% + (120 - 720) * var(--u));
+  top: calc(140 * var(--u));
+  width: calc(1200 * var(--u));
+  height: calc(640 * var(--u));
 }
-.ideas__text { width: calc(533 * var(--u)); }
-.ideas__image { width: calc(640 * var(--u)); height: calc(640 * var(--u)); background: #fff; }
+.ideas__image {
+  position: absolute; right: 0; top: 0;
+  width: calc(820 * var(--u)); height: calc(640 * var(--u));
+  overflow: hidden;
+}
 .ideas__image img { width: 100%; height: 100%; object-fit: cover; }
+.ideas__card {
+  position: absolute; z-index: 1;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: calc(560 * var(--u));
+  padding: calc(56 * var(--u)) calc(48 * var(--u));
+  border-radius: calc(32 * var(--u));
+  /* tmavší sklo než u karet s čísly, aby byl text čitelný i přes fotku */
+  background: rgba(12, 12, 12, .55);
+  -webkit-backdrop-filter: blur(calc(24 * var(--u))) saturate(1.2);
+  backdrop-filter: blur(calc(24 * var(--u))) saturate(1.2);
+}
+.ideas__text { width: 100%; }
+.ideas__card .h2, .ideas__card .body { text-shadow: none; }
 
 /* ===== 09 CTA ===== */
-.cta { height: calc(788 * var(--u)); } /* obsah o 100 výš — menší mezera pod fotkou B */
+/* CTA je poslední sekce a má přesně výšku okna: po doscrollování na konec
+   je obsah vždy ve vertikálním středu obrazovky, na jakémkoli monitoru */
+.cta { height: 100vh; }
 .cta__content {
   left: 0;
   right: 0;
-  top: calc(182 * var(--u));
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -409,8 +463,93 @@ em { font-style: normal; color: var(--pink); }
 .cta .h2 { text-shadow: none; }
 .cta__buttons { display: flex; justify-content: center; gap: calc(64 * var(--u)); }
 
+/* ===== Filmový grain přes celou stránku =====
+   Vrstvy odspodu: pozadí a velké nápisy (z-index 0) → grain (1) → texty a fotky
+   (1, ale v HTML až za grainem) → full-bleed rámy (2). Grain nebere kliknutí. Dlaždice šumu se vykresluje 1 : 1,
+   s jemnými světlými i tmavými zrnky, takže oživí i černé plochy. */
+.film-grain {
+  position: fixed;
+  z-index: 1;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  pointer-events: none;
+  background: url("/yord/project_pages/assets/img/film-grain.png") repeat;
+  background-size: 256px 256px;
+}
+@media (min-resolution: 2dppx) { .film-grain { background-size: 128px 128px; } }
+@media (prefers-reduced-motion: no-preference) {
+  /* Zrno se ~10× za sekundu přeskočí na jiné místo — „vlní“ se jako film */
+  .film-grain { animation: film-grain 0.8s steps(1) infinite; will-change: transform; }
+  @keyframes film-grain {
+    0%   { transform: translate(0, 0); }
+    12%  { transform: translate(-7%, 4%); }
+    25%  { transform: translate(5%, -9%); }
+    37%  { transform: translate(-11%, -3%); }
+    50%  { transform: translate(9%, 7%); }
+    62%  { transform: translate(-4%, 11%); }
+    75%  { transform: translate(12%, -6%); }
+    87%  { transform: translate(-9%, -10%); }
+  }
+}
+
+/* ===== Karty s čísly: odlesk a růžová záře ===== */
+.stat { position: relative; overflow: hidden; isolation: isolate; }
+.stat > * { position: relative; z-index: 1; }
+/* Světelný odlesk — šikmý pruh světla, který jednou přejede přes sklo */
+.stat::after {
+  content: "";
+  position: absolute; z-index: 2; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, .16) 45%, rgba(255, 255, 255, .28) 50%, rgba(255, 255, 255, .16) 55%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+/* Jemná růžová záře za „92 %“ */
+.stat--pink::before {
+  content: "";
+  position: absolute; z-index: 0;
+  left: 50%; top: 42%;
+  width: 70%; height: 90%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(236, 37, 85, .45), rgba(236, 37, 85, 0));
+  filter: blur(calc(8 * var(--u)));
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.is-counted .stat--pink::before { opacity: 1; }
+
 /* ===== Animace (jen když běží JS a uživatel nemá vypnutý pohyb) ===== */
 @media (prefers-reduced-motion: no-preference) {
+  /* Karty naskočí postupně jedna po druhé (při ~30 % viditelnosti sekce Results) */
+  .js .stat { opacity: 0; transform: translateY(calc(24 * var(--u))) scale(.96); }
+  .js .stats-in .stat {
+    opacity: 1; transform: none;
+    transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
+    transition-delay: calc(var(--i) * .12s);
+  }
+  /* Po dopočítání čísel přejede přes karty jednou odlesk, s odstupem karta po kartě */
+  .js .is-counted .stat::after { animation: stat-shine 1.1s cubic-bezier(0.4, 0, 0.2, 1) calc(var(--i) * .12s) both; }
+  @keyframes stat-shine {
+    from { transform: translateX(-120%); }
+    to { transform: translateX(120%); }
+  }
+
+  /* Hero: nástup po načtení fotky — fotka se plynule objeví a zmenší ze 108 % na 100 %,
+     tlačítko, nadpis a podtitul naskočí postupně. Menu zůstává statické. */
+  .js .hero__media img { opacity: 0; }
+  .js .hero--in .hero__media img { animation: hero-zoom 2.6s var(--ease-out) both; }
+  .js [data-hero-in] { opacity: 0; }
+  .js .hero--in [data-hero-in] { animation: hero-rise 1s var(--ease-out) var(--d, 0s) both; }
+  @keyframes hero-zoom {
+    from { opacity: 0; transform: scale(1.08); }
+    30% { opacity: 1; }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(calc(24 * var(--u))); }
+    to { opacity: 1; transform: none; }
+  }
+  .js .hero__media, .js .hero__text { will-change: translate, opacity; }
+
   .js [data-reveal] {
     opacity: 0;
     transform: translateY(calc(32 * var(--u)));

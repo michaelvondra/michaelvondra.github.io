@@ -9,6 +9,56 @@
     return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--k')) || 1;
   }
 
+  /* --- Plynulý scroll se setrvačností (kolečko myši / touchpad) ---
+     Kolečko neposune stránku hned, ale nastaví cíl, ke kterému stránka plynule
+     „doplouvá“. Klávesnice, posuvník a dotykové displeje zůstávají nativní. */
+  (function smoothScroll() {
+    if (window.matchMedia('(pointer: coarse)').matches) return; // dotykové displeje nechat nativní
+    var EASE = 0.09;          // podíl zbývající vzdálenosti za snímek (60 fps); menší = delší dojezd
+    var target = window.scrollY;
+    var current = target;
+    var running = false;
+    var last = 0;
+
+    function maxScroll() {
+      return document.documentElement.scrollHeight - window.innerHeight;
+    }
+    function frame(now) {
+      var dt = last ? Math.min(64, now - last) : 16.7;
+      last = now;
+      var a = 1 - Math.pow(1 - EASE, dt / 16.7);
+      current += (target - current) * a;
+      if (Math.abs(target - current) < 0.5) current = target;
+      window.scrollTo(0, current);
+      if (current !== target) requestAnimationFrame(frame);
+      else { running = false; last = 0; }
+    }
+    function stop() {
+      running = false; last = 0;
+      target = current = window.scrollY;
+    }
+
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.defaultPrevented) return;                        // zoom gestem nechat být
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;                // vodorovný posun nativně
+      var d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
+      e.preventDefault();
+      if (!running) target = current = window.scrollY;                  // navázat na aktuální pozici
+      target = Math.max(0, Math.min(maxScroll(), target + d));
+      if (!running) { running = true; requestAnimationFrame(frame); }
+    }, { passive: false });
+
+    // Klávesnice, posuvník, odkazy: zastavit dojezd a převzít nativní pozici
+    window.addEventListener('keydown', stop);
+    window.addEventListener('mousedown', stop);
+    window.addEventListener('scroll', function () {
+      if (!running) target = current = window.scrollY;
+    }, { passive: true });
+    window.addEventListener('resize', function () {
+      target = Math.min(target, maxScroll());
+    });
+  })();
+
   /* --- 0) Typewriter pro citaci: každý znak dostane vlastní span, který je
      do napsání neviditelný (místo zůstává, takže se text nepřelamuje) --- */
   var TYPE_DURATION = 600; // ms
@@ -51,6 +101,44 @@
   }
 
   document.querySelectorAll('[data-typewriter]').forEach(prepareTypewriter);
+
+  /* --- 0b) Hero: nástup po načtení fotky + parallaxa při scrollu ---
+     Fotka jede při scrollu pomaleji než stránka (35 % rychlosti scrollu dolů)
+     a text se během první poloviny hera rozplyne a lehce vyjede nahoru. */
+  var hero = document.querySelector('.hero');
+  if (hero) {
+    var heroImg = hero.querySelector('.hero__media img');
+    var heroMedia = hero.querySelector('.hero__media');
+    var heroText = hero.querySelector('.hero__text');
+    var heroStarted = false;
+    var startHero = function () {
+      if (heroStarted) return;
+      heroStarted = true;
+      hero.classList.add('hero--in');
+    };
+    if (heroImg.complete && heroImg.naturalWidth) startHero();
+    else {
+      heroImg.addEventListener('load', startHero);
+      heroImg.addEventListener('error', startHero);
+      setTimeout(startHero, 2500); // pojistka při pomalém připojení
+    }
+
+    var heroQueued = false;
+    var updateHero = function () {
+      heroQueued = false;
+      var y = window.scrollY || window.pageYOffset;
+      var h = hero.offsetHeight;
+      if (y > h) return; // hero je mimo okno
+      heroMedia.style.translate = '0 ' + (y * 0.35).toFixed(1) + 'px';
+      var fade = Math.min(1, y / (h * 0.5));
+      heroText.style.opacity = (1 - fade).toFixed(3);
+      heroText.style.translate = '0 ' + (-y * 0.15).toFixed(1) + 'px';
+    };
+    window.addEventListener('scroll', function () {
+      if (!heroQueued) { heroQueued = true; requestAnimationFrame(updateHero); }
+    }, { passive: true });
+    updateHero();
+  }
 
   /* --- 1) Texty a tlačítka: plynulé objevení, jednou když samotný blok textu
      vjede do okna (jeho horní hrana nad ~80 % výšky okna) --- */
@@ -110,6 +198,61 @@
   window.addEventListener('resize', startGallery);
   startGallery();
 
+  /* --- 2a) Velké nápisy v pozadí se při scrollu pomalu posouvají do strany ---
+     Každý nápis jiným směrem (data-drift = 1 doprava, −1 doleva). Posun běží
+     po celou dobu, kdy je sekce v okně: od −DRIFT do +DRIFT (× měřítko S). */
+  var drifts = Array.prototype.slice.call(document.querySelectorAll('[data-drift]'));
+  var DRIFT = 140; // px při 1440
+  var driftQueued = false;
+
+  function getS() {
+    return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--s')) || 1;
+  }
+  function updateDrift() {
+    driftQueued = false;
+    var vh = window.innerHeight, s = getS();
+    drifts.forEach(function (el) {
+      var sec = el.parentElement;
+      var top = sec.offsetTop - (window.scrollY || window.pageYOffset);
+      var h = sec.offsetHeight;
+      if (top > vh || top + h < 0) return; // mimo okno
+      var p = (vh - top) / (vh + h);      // 0 = sekce vjíždí zespodu, 1 = odjíždí nahoru
+      var x = (p - 0.5) * 2 * DRIFT * s * parseFloat(el.dataset.drift);
+      el.style.translate = x.toFixed(1) + 'px 0';
+    });
+  }
+  function requestDrift() {
+    if (!driftQueued) { driftQueued = true; requestAnimationFrame(updateDrift); }
+  }
+  if (drifts.length) {
+    window.addEventListener('scroll', requestDrift, { passive: true });
+    window.addEventListener('resize', requestDrift);
+    updateDrift();
+  }
+
+  /* --- 2a2) Hloubka v Ideas: skleněná karta jede při scrollu o něco rychleji než fotka --- */
+  var depthEls = Array.prototype.slice.call(document.querySelectorAll('[data-depth]'));
+  var DEPTH = 60; // px při 1440: karta je při vjezdu o 60 níž, při odjezdu o 60 výš
+  var depthQueued = false;
+  function updateDepth() {
+    depthQueued = false;
+    var vh = window.innerHeight, s = getS(), sy = window.scrollY || window.pageYOffset;
+    depthEls.forEach(function (el) {
+      var sec = el.closest('.sec');
+      var top = sec.offsetTop - sy, h = sec.offsetHeight;
+      if (top > vh || top + h < 0) return;
+      var p = Math.min(1, Math.max(0, (vh - top) / (vh + h)));
+      el.style.translate = '0 ' + ((0.5 - p) * 2 * DEPTH * s).toFixed(1) + 'px';
+    });
+  }
+  if (depthEls.length) {
+    window.addEventListener('scroll', function () {
+      if (!depthQueued) { depthQueued = true; requestAnimationFrame(updateDepth); }
+    }, { passive: true });
+    window.addEventListener('resize', updateDepth);
+    updateDepth();
+  }
+
   /* --- 2b) Parallaxa full-bleed fotek: celý rám s fotkou jede rychleji než stránka ---
      Při vjezdu zespodu je rám posunutý o +RANGE dolů, při odjezdu o −RANGE nahoru,
      takže přijede i odjede ze záběru dřív. Fotka uvnitř rámu se nehýbe.
@@ -168,6 +311,7 @@
         el.textContent = format(Math.round(target * e), el.dataset.suffix);
       });
       if (t < 1) requestAnimationFrame(frame);
+      else results.classList.add('is-counted'); // odlesk + růžová záře
     }
     requestAnimationFrame(frame);
   }
@@ -177,7 +321,8 @@
       entries.forEach(function (e) {
         if (e.isIntersecting || e.boundingClientRect.top < 0) {
           countObserver.disconnect();
-          runCounters();
+          results.classList.add('stats-in');   // karty naskočí postupně
+          setTimeout(runCounters, 250);        // čísla se rozjedou, když karty naskakují
         }
       });
     }, { rootMargin: '0px 0px -30% 0px', threshold: 0 });

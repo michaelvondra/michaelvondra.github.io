@@ -34,16 +34,18 @@
     })();
   </script>
   <link rel="preload" href="/yord/project_pages/assets/fonts/ArcaMajora3-Bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/yord/project_pages/assets/img/hero.webp?v=2" as="image">
-  <link rel="stylesheet" href="/yord/project_pages/style.css?v=10">
+  <link rel="preload" as="image" imagesrcset="/yord/project_pages/assets/img/hero-2400.webp?v=3 2400w, /yord/project_pages/assets/img/hero.webp?v=3 3840w" imagesizes="133.34vw">
+  <link rel="stylesheet" href="/yord/project_pages/style.css?v=25">
 </head>
 <body>
 <main class="page">
+  <!-- Filmový grain: nad pozadím a velkými nápisy, ale pod texty a fotkami -->
+  <div class="film-grain" aria-hidden="true"></div>
 
   <!-- 01 Hero -->
   <section class="sec hero">
     <div class="hero__media">
-      <img src="/yord/project_pages/assets/img/hero.webp?v=2" alt="Visitors in the AI Experience Center in Miami">
+      <img src="/yord/project_pages/assets/img/hero.webp?v=3" srcset="/yord/project_pages/assets/img/hero-2400.webp?v=3 2400w, /yord/project_pages/assets/img/hero.webp?v=3 3840w" sizes="133.34vw" alt="Visitors in the AI Experience Center in Miami">
       <div class="hero__shade hero__shade--radial"></div>
       <div class="hero__shade hero__shade--linear"></div>
     </div>
@@ -58,18 +60,18 @@
     </nav>
 
     <div class="hero__text">
-      <a class="btn btn--glass hero__btn" href="#">
+      <a class="btn btn--glass hero__btn" href="#" data-hero-in style="--d:.35s">
         <span class="btn__label">Watch case study</span>
         <span class="icon-play" aria-hidden="true"><img src="/yord/project_pages/assets/img/icon-play.svg" alt=""></span>
       </a>
-      <h1 class="hero__title trim">AI Experience Center</h1>
-      <p class="hero__meta trim">AI Digital / Miami / AI &amp; Interactive Installations</p>
+      <h1 class="hero__title trim" data-hero-in style="--d:.5s">AI Experience Center</h1>
+      <p class="hero__meta trim" data-hero-in style="--d:.65s">AI Digital / Miami / AI &amp; Interactive Installations</p>
     </div>
   </section>
 
   <!-- 02 Challenge -->
   <section class="sec challenge">
-    <p class="bg-title trim" aria-hidden="true">THE CHALLENGE</p>
+    <p class="bg-title trim" aria-hidden="true" data-drift="1">THE CHALLENGE</p>
     <div class="text-block challenge__text" data-reveal-group>
       <h2 class="h2 trim" data-reveal>Turning complex marketing into <em>interactive experiences</em>.</h2>
       <p class="body trim" data-reveal style="--d:.12s">AI Digital wanted to transform its Miami office into an interactive showcase where visitors could experience AI-powered marketing, explore advertising technologies and understand complex services through hands-on interaction.</p>
@@ -80,13 +82,14 @@
   <section class="sec gallery" id="gallery">
     <div class="bg bg--glow-gallery" aria-hidden="true">
       <div class="glow">
-        <div class="glow__crop"><img src="/yord/project_pages/assets/img/glow-gallery.webp" alt=""></div>
+        <div class="glow__crop"><div class="glow__shape"></div></div>
+        <div class="grain"></div>
         <div class="glow__tint"></div>
         <div class="glow__fade"></div>
       </div>
     </div>
     <div class="bg bg--gradient-results" aria-hidden="true">
-      <img src="/yord/project_pages/assets/img/gradient-results.webp" alt="">
+      <div class="gradient-results__shape"></div>
       <div class="gradient-results__fade"></div>
     </div>
     <div class="gallery__track">
@@ -98,26 +101,26 @@
 
   <!-- 04 Results -->
   <section class="sec results" id="results">
-    <p class="bg-title trim" aria-hidden="true">THE RESULTS</p>
+    <p class="bg-title trim" aria-hidden="true" data-drift="-1">THE RESULTS</p>
     <div class="results__content">
       <div class="text-block results__text" data-reveal-group>
         <h2 class="h2 trim results__heading" data-reveal>From complex technology to <em>real experiences</em>.</h2>
         <p class="body body--white trim" data-reveal style="--d:.12s">The result is a permanent interactive environment that brings AI Digital’s capabilities to life. Instead of simply presenting marketing services, visitors can explore, experiment, and experience them firsthand. The space transforms complex technologies into engaging, accessible experiences while creating new opportunities for client conversations and stronger brand connections.</p>
       </div>
       <div class="stats">
-        <div class="stat glass">
+        <div class="stat glass" style="--i:0">
           <p class="stat__value" data-count="2">2</p>
           <p class="stat__label trim">Connected Zones</p>
         </div>
-        <div class="stat glass">
+        <div class="stat glass" style="--i:1">
           <p class="stat__value" data-count="6">6</p>
           <p class="stat__label trim">Interactive Experiences</p>
         </div>
-        <div class="stat glass">
+        <div class="stat glass" style="--i:2">
           <p class="stat__value" data-count="1500" data-suffix="+">1,500+</p>
           <p class="stat__label trim">Visitors Engaged</p>
         </div>
-        <div class="stat glass">
+        <div class="stat glass stat--pink" style="--i:3">
           <p class="stat__value stat__value--pink" data-count="92" data-suffix=" %">92 %</p>
           <p class="stat__label trim">Positive Feedback</p>
         </div>
@@ -132,7 +135,7 @@
 
   <!-- 06 Testimonial -->
   <section class="sec testimonial">
-    <p class="bg-title trim" aria-hidden="true">CLIENT’S WORDS</p>
+    <p class="bg-title trim" aria-hidden="true" data-drift="1">CLIENT’S WORDS</p>
     <div class="testimonial__quote" data-reveal-group>
       <blockquote class="quote trim" data-typewriter>“YORD helped us transform our vision into an experience that makes complex marketing technologies <strong>easy to understand</strong>”</blockquote>
       <a class="btn btn--outline testimonial__btn" href="#" data-reveal style="--d:.24s"><span class="btn__label">Watch testimonial</span></a>
@@ -143,17 +146,21 @@
   <section class="sec ideas">
     <div class="bg bg--glow-ideas" aria-hidden="true">
       <div class="glow">
-        <img src="/yord/project_pages/assets/img/glow-ideas.webp" alt="">
+        <div class="glow__shape"></div>
+        <div class="grain"></div>
         <div class="glow__tint"></div>
         <div class="glow__fade"></div>
       </div>
     </div>
     <div class="ideas__content">
-      <div class="text-block ideas__text" data-reveal-group>
-        <h2 class="h2 trim" data-reveal>Turn your ideas into experiences <em>people remember</em>.</h2>
-        <p class="body trim" data-reveal style="--d:.12s">Make your products, services, and innovations easier to understand through interactive, hands-on experiences. By combining AI and immersive technologies, you can engage visitors, showcase your capabilities, and bring complex ideas to life. Give your customers something more powerful than a presentation: the opportunity to experience your brand firsthand.</p>
-      </div>
       <div class="ideas__image"><img src="/yord/project_pages/assets/img/ideas.webp?v=2" alt="Visitors exploring an interactive tablet station" loading="lazy"></div>
+      <!-- Skleněná karta s textem překrývá levý okraj fotky; při scrollu jede o něco rychleji -->
+      <div class="ideas__card glass" data-depth>
+        <div class="text-block ideas__text" data-reveal-group>
+          <h2 class="h2 trim" data-reveal>Turn your ideas into experiences <em>people remember</em>.</h2>
+          <p class="body trim" data-reveal style="--d:.12s">Make your products, services, and innovations easier to understand through interactive, hands-on experiences. By combining AI and immersive technologies, you can engage visitors, showcase your capabilities, and bring complex ideas to life. Give your customers something more powerful than a presentation: the opportunity to experience your brand firsthand.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -177,6 +184,6 @@
   </section>
 
 </main>
-<script src="/yord/project_pages/main.js?v=10"></script>
+<script src="/yord/project_pages/main.js?v=25"></script>
 </body>
 </html>
