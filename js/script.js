@@ -115,6 +115,12 @@ function initScrollAnimations() {
     // Focení
     animate('.photo-gallery-placeholder');
 
+    // Disclaimer bublina — decentní pop-up
+    document.querySelectorAll('.work-note').forEach(el => {
+        el.classList.add('anim-pop');
+        observer.observe(el);
+    });
+
     // Kontakt
     animate('.contact-heading');
     animate('.contact-sub');
@@ -244,9 +250,14 @@ function openLightbox(card) {
         lightboxPhotoWrap.classList.remove('is-active');
     }
 
+    // Placeholder (video zatím není) — jen text
+    if (type === 'placeholder') lightboxVideoWrap.style.display = 'none';
+
     lightboxTitle.innerHTML  = title;
     lightboxDesc.innerHTML   = desc;
-    lightboxCredit.innerHTML = credit;
+    // Štítek z karty (Pixbo / Přímá zakázka) má přednost před textovou zmínkou
+    const badge = card.querySelector('.credit-badge');
+    lightboxCredit.innerHTML = badge ? badge.outerHTML : credit;
     lightbox.classList.add('is-open');
     document.body.style.overflow = 'hidden';
 }
@@ -504,6 +515,7 @@ window.addEventListener('scroll', () => {
 
     getHalfWidth();
     window.addEventListener('resize', getHalfWidth);
+    window.addEventListener('load', getHalfWidth); // po načtení log je známá jejich šířka
 
     wrap.addEventListener('mouseenter',  () => targetSpeed = SPEED_FAST);
     wrap.addEventListener('mouseleave',  () => targetSpeed = SPEED_NORMAL);
