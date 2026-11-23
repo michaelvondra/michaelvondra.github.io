@@ -75,7 +75,7 @@ em { font-style: normal; color: var(--pink); }
 .bg-title {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: calc(130.651 * var(--u));
+  font-size: calc(128 * var(--u));
   line-height: 1;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -87,16 +87,16 @@ em { font-style: normal; color: var(--pink); }
   user-select: none;
 }
 
-.text-block { display: flex; flex-direction: column; gap: calc(24 * var(--u)); }
+.text-block { display: flex; flex-direction: column; gap: calc(32 * var(--u)); }
 
 /* ===== Tlačítka ===== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: calc(10 * var(--u));
+  gap: calc(8 * var(--u));
   padding: calc(20 * var(--u)) calc(32 * var(--u));
-  border-radius: calc(100 * var(--u));
+  border-radius: calc(32 * var(--u));
   font-family: var(--font-display);
   font-weight: 700;
   font-size: calc(16 * var(--u));
@@ -125,7 +125,7 @@ em { font-style: normal; color: var(--pink); }
 .btn--glass:hover { background: rgba(255, 255, 255, .18); }
 
 /* ===== 01 Hero ===== */
-.hero { height: calc(1023 * var(--u)); overflow: hidden; }
+.hero { height: calc(1024 * var(--u)); overflow: hidden; }
 .hero__media {
   width: calc(1920 * var(--q));
   height: calc(1080 * var(--u));
@@ -199,8 +199,8 @@ em { font-style: normal; color: var(--pink); }
 .nav__cta:hover { filter: brightness(1.12); }
 
 .hero__text {
-  left: calc(50% + (122 - 720) * var(--u));
-  top: calc(573 * var(--u));
+  left: calc(50% + (120 - 720) * var(--u));
+  top: calc(572 * var(--u));
   width: calc(488 * var(--u));
   display: flex;
   flex-direction: column;
@@ -235,12 +235,12 @@ em { font-style: normal; color: var(--pink); }
 }
 
 /* ===== 02 Challenge ===== */
-.challenge { height: calc(675 * var(--u)); }
+.challenge { height: calc(676 * var(--u)); }
 .challenge .bg-title { left: calc(50% + (-13 - 720) * var(--u)); top: calc(348 * var(--u)); }
-.challenge__text { left: calc(50% + (120 - 720) * var(--u)); top: calc(235 * var(--u)); width: calc(561 * var(--u)); }
+.challenge__text { left: calc(50% + (120 - 720) * var(--u)); top: calc(236 * var(--u)); width: calc(561 * var(--u)); }
 
 /* ===== 03 Gallery ===== */
-.gallery { height: calc(397 * var(--q)); }
+.gallery { height: calc(396 * var(--q)); }
 .gallery__track {
   left: calc(-40 * var(--q));
   top: 0;
@@ -248,7 +248,7 @@ em { font-style: normal; color: var(--pink); }
   gap: calc(64 * var(--q));
   will-change: transform;
 }
-.gallery__item { position: relative; flex: none; width: calc(530 * var(--q)); height: calc(397 * var(--q)); overflow: hidden; background: #fff; }
+.gallery__item { position: relative; flex: none; width: calc(528 * var(--q)); height: calc(396 * var(--q)); overflow: hidden; background: #fff; }
 .gallery__item img { position: absolute; max-width: none; }
 .gallery__item--1 img { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 25% bottom; } /* výřez bez šedého sloupu u pravého okraje fotky */
 .gallery__item--2 img { width: 101.92%; height: 181.42%; left: -0.98%; top: -30.51%; }
@@ -309,11 +309,11 @@ em { font-style: normal; color: var(--pink); }
 .gradient-results__fade { position: absolute; inset: 0; background: linear-gradient(to bottom, #000 16.265%, rgba(0, 0, 0, 0) 26.581%); }
 
 /* ===== 04 Results ===== */
-.results { height: calc(843 * var(--u)); } /* o 100 kratší než Figma — menší mezera nad fotkou A */
+.results { height: calc(844 * var(--u)); } /* o 100 kratší než Figma — menší mezera nad fotkou A */
 .results .bg-title { left: calc(50% + (525 - 720) * var(--u)); top: calc(314 * var(--u)); }
 .results__content {
   left: calc(50% + (120 - 720) * var(--u));
-  top: calc(331 * var(--u));
+  top: calc(332 * var(--u));
   display: flex;
   align-items: center;
   gap: calc(56 * var(--u));
@@ -337,11 +337,11 @@ em { font-style: normal; color: var(--pink); }
 }
 .stat__value {
   width: 100%;
-  height: calc(50 * var(--u));
+  height: calc(52 * var(--u));
   overflow: hidden;
   font-weight: 800;
-  font-size: calc(62 * var(--u));
-  line-height: calc(50 * var(--u));
+  font-size: calc(64 * var(--u));
+  line-height: calc(52 * var(--u));
   font-variant-numeric: tabular-nums;
   color: var(--white);
 }
@@ -368,29 +368,37 @@ em { font-style: normal; color: var(--pink); }
 }
 .bleed--a { height: calc(1024 * var(--u)); }
 .bleed--a img { left: calc(-196 * var(--q)); width: calc(1820.444 * var(--q)); }
-.bleed--b { height: calc(955 * var(--u)); }
+.bleed--b { height: calc(956 * var(--u)); }
 .bleed--b img { left: calc(-121 * var(--q)); width: calc(1698 * var(--q)); }
 
 /* ===== 06 Testimonial ===== */
-.testimonial { height: calc(587 * var(--u)); } /* vůči Figmě: obsah o 160 výš, sekce o 260 nižší — menší mezery před i za citací */
+.testimonial { height: calc(588 * var(--u)); } /* vůči Figmě: obsah o 160 výš, sekce o 260 nižší — menší mezery před i za citací */
 .testimonial .bg-title { left: calc(50% + (137 - 720) * var(--u)); top: calc(239 * var(--u)); }
 .testimonial__quote {
   left: 0;
   right: 0;
-  top: calc(218 * var(--u));
+  top: calc(216 * var(--u));
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: calc(32 * var(--u));
 }
+/* citace + jméno pod ní, mezera 16 */
+.testimonial__cite { display: flex; flex-direction: column; align-items: center; gap: calc(16 * var(--u)); }
 .quote {
-  width: calc(752 * var(--u));
   font-size: calc(24 * var(--u));
   line-height: calc(32 * var(--u));
   text-align: center;
   color: var(--white);
 }
 .quote strong { font-weight: 700; color: var(--pink); }
+.quote__author {
+  font-size: calc(16 * var(--u));
+  line-height: calc(16 * var(--u));
+  letter-spacing: .02em;
+  text-align: center;
+  color: #939393;
+}
 
 /* ===== 07 Ideas ===== */
 .ideas { height: calc(1060 * var(--u)); } /* obsah 140–780, pod ním ~280 mezera k fotce B */
@@ -416,7 +424,7 @@ em { font-style: normal; color: var(--pink); }
     linear-gradient(-8.41deg, #000 18.423%, rgba(0, 0, 0, 0) 50.027%),
     linear-gradient(190.21deg, #000 18.941%, rgba(0, 0, 0, 0) 48.343%);
 }
-/* Varianta B: velká fotka vpravo, přes její levý okraj skleněná karta s textem */
+/* Varianta B: velká fotka vpravo až ke kraji okna, přes její levý okraj skleněná karta s textem */
 .ideas__content {
   left: calc(50% + (120 - 720) * var(--u));
   top: calc(140 * var(--u));
@@ -424,8 +432,12 @@ em { font-style: normal; color: var(--pink); }
   height: calc(640 * var(--u));
 }
 .ideas__image {
-  position: absolute; right: 0; top: 0;
-  width: calc(820 * var(--u)); height: calc(640 * var(--u));
+  /* začíná 343 od levého kraje obsahu a sahá až k pravému okraji okna
+     (obsah končí 600 vpravo od středu, okraj okna je 50vw od středu) */
+  position: absolute; top: 0;
+  left: calc(343 * var(--u));
+  right: calc(600 * var(--u) - 50vw);
+  height: calc(640 * var(--u));
   overflow: hidden;
 }
 .ideas__image img { width: 100%; height: 100%; object-fit: cover; }
@@ -445,23 +457,81 @@ em { font-style: normal; color: var(--pink); }
 .ideas__card .h2, .ideas__card .body { text-shadow: none; }
 
 /* ===== 09 CTA ===== */
-/* CTA je poslední sekce a má přesně výšku okna: po doscrollování na konec
-   je obsah vždy ve vertikálním středu obrazovky, na jakémkoli monitoru */
-.cta { height: 100vh; }
+/* CTA: nadpis + kontaktní formulář v rámečku (Figma 1440: sekce 1216, obsah 256 od horního okraje) */
+.cta { height: calc(1216 * var(--u)); }
 .cta__content {
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  left: calc(50% + (120 - 720) * var(--u));
+  width: calc(1200 * var(--u));
+  top: calc(256 * var(--u));
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(64 * var(--u));
+  gap: calc(32 * var(--u));
   text-align: center;
 }
 .cta__heading { display: flex; flex-direction: column; align-items: center; gap: calc(32 * var(--u)); white-space: nowrap; }
 .cta .h2 { text-shadow: none; }
-.cta__buttons { display: flex; justify-content: center; gap: calc(64 * var(--u)); }
+
+/* Rámeček s formulářem: okraje 48/152, formulář → souhlas 32 */
+.cta__form-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: calc(32 * var(--u));
+  padding: calc(48 * var(--u)) calc(152 * var(--u));
+  border: max(1px, calc(1 * var(--u))) solid var(--light-grey);
+  border-radius: calc(32 * var(--u));
+  text-align: left;
+}
+/* řádky po 16, sloupce po 32, popisek → pole 8 */
+.cta-form { display: flex; flex-direction: column; gap: calc(16 * var(--u)); }
+.cta-form__row { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(32 * var(--u)); }
+.cta-form__field { display: flex; flex-direction: column; gap: calc(8 * var(--u)); }
+.cta-form__label,
+.cta-form__consent {
+  font-size: calc(16 * var(--u));
+  line-height: calc(16 * var(--u));
+  letter-spacing: .02em;
+  color: #fff;
+}
+.cta-form__label b { font-weight: 400; color: var(--pink); }
+.cta-form__input {
+  display: block;
+  width: 100%;
+  height: calc(40 * var(--u));
+  padding: 0 calc(16 * var(--u));
+  background: var(--white);
+  border: max(1px, calc(1 * var(--u))) solid var(--light-grey);
+  border-radius: calc(32 * var(--u));
+  font: inherit;
+  font-size: calc(16 * var(--u));
+  letter-spacing: .02em;
+  color: #222;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.cta-form__input::placeholder { color: var(--light-grey); opacity: 1; }
+.cta-form__input:focus { border-color: var(--pink); box-shadow: 0 0 0 calc(2 * var(--u)) rgba(236, 37, 85, .25); }
+.cta-form__select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: calc(32 * var(--u));
+  color: var(--light-grey);
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--light-grey) 50%), linear-gradient(135deg, var(--light-grey) 50%, transparent 50%);
+  background-position: calc(100% - 20 * var(--u)) 50%, calc(100% - 15 * var(--u)) 50%;
+  background-size: calc(5 * var(--u)) calc(5 * var(--u));
+  background-repeat: no-repeat;
+}
+.cta-form__textarea {
+  height: calc(96 * var(--u));
+  padding: calc(12 * var(--u)) calc(16 * var(--u));
+  line-height: calc(22 * var(--u));
+  resize: none;
+}
+/* tlačítko Submit: 32 pod polem pro zprávu, stejný styl jako ostatní tlačítka */
+.cta-form__submit-wrap { padding-top: calc(16 * var(--u)); }
+.cta-form__submit { cursor: pointer; border: 0; }
 
 /* ===== Filmový grain přes celou stránku =====
    Vrstvy odspodu: pozadí a velké nápisy (z-index 0) → grain (1) → texty a fotky
@@ -474,6 +544,7 @@ em { font-style: normal; color: var(--pink); }
   width: 200%; height: 200%;
   pointer-events: none;
   background: url("/yord/project_pages/assets/img/film-grain.png") repeat;
+  opacity: .7; /* intenzita šumu 70 % */
   background-size: 256px 256px;
 }
 @media (min-resolution: 2dppx) { .film-grain { background-size: 128px 128px; } }

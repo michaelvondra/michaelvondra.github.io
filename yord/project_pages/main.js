@@ -157,24 +157,26 @@
     revealObserver.observe(g);
   });
 
-  /* --- 2) Galerie: posun vázaný na scroll, s plynulým dojezdem ---
-     Začátek: horní hrana sekce na spodku okna. Konec: horní hrana sekce nahoře.
-     Celkový posun = 198 px při 1440 (škáluje se šířkou okna).
-     Průběh má ease-in-out křivku a pozice za scrollem plynule „dojíždí“,
-     takže skoky kolečka myši nejsou vidět. */
+  /* --- 2) Galerie: pomalý vodorovný posun po celou dobu, kdy je pruh v okně ---
+     Začátek: pruh vjíždí zespodu. Konec: pruh odjíždí nahoře.
+     Pás fotek (3 × 528 + 2 × 64 = 1712 px při 1440) začíná 40 px vlevo za okrajem,
+     takže se může posunout od +40 do −232 px a nikdy neukáže prázdný kraj.
+     Průběh je rovnoměrný (bez zrychlení uprostřed) a pozice za scrollem plynule
+     „dojíždí“, takže skoky kolečka myši nejsou vidět. */
   var gallery = document.getElementById('gallery');
   var track = gallery && gallery.querySelector('.gallery__track');
   var current = null;
   var running = false;
   var SMOOTH = 0.09; // menší = měkčí dojezd
 
-  function easeInOut(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  var GALLERY_FROM = 40, GALLERY_TO = -232; // px při 1440
 
   function targetX() {
     var rect = gallery.getBoundingClientRect();
-    var p = 1 - rect.top / window.innerHeight;
+    var vh = window.innerHeight;
+    var p = (vh - rect.top) / (vh + rect.height); // 0 = vjíždí zespodu, 1 = odjíždí nahoru
     p = Math.min(1, Math.max(0, p));
-    return -198 * getK() * easeInOut(p);
+    return (GALLERY_FROM + (GALLERY_TO - GALLERY_FROM) * p) * getK();
   }
 
   function tick() {
@@ -327,5 +329,15 @@
       });
     }, { rootMargin: '0px 0px -30% 0px', threshold: 0 });
     countObserver.observe(results);
+  }
+
+  /* --- Kontaktní formulář v CTA: zatím jen ukázka, nic se neodesílá --- */
+  var ctaForm = document.querySelector('.cta-form');
+  if (ctaForm) {
+    ctaForm.addEventListener('submit', function (e) { e.preventDefault(); });
+    // výběrové pole: po zvolení možnosti text ztmavne jako u vyplněného pole
+    ctaForm.querySelectorAll('select').forEach(function (sel) {
+      sel.addEventListener('change', function () { sel.style.color = sel.value ? '#222' : ''; });
+    });
   }
 })();
