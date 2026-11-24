@@ -234,6 +234,60 @@ em { font-style: normal; color: var(--pink); }
   white-space: nowrap;
 }
 
+/* ===== 01b Intro ===== */
+.intro { height: calc(640 * var(--u)); }
+.intro__content {
+  left: calc(50% + (160 - 720) * var(--u));
+  top: calc(120 * var(--u));
+  width: calc(1120 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(96 * var(--u));
+}
+/* velký úvodní popisek (vlastní styl, v library zatím není) */
+.intro__statement {
+  font-size: calc(48 * var(--u));
+  line-height: calc(64 * var(--u));
+  text-align: center;
+  color: var(--white);
+}
+.intro__statement strong { font-weight: 700; }
+.intro__pink { color: var(--pink); }
+/* tagy: štítek (Caption) + hodnota (Card lower case), oddělené svislou linkou */
+.intro__tags { display: flex; align-items: center; }
+.intro__tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  padding: 0 calc(48 * var(--u));
+}
+.intro__tag + .intro__tag { position: relative; }
+.intro__tag + .intro__tag::before {
+  content: "";
+  position: absolute; left: 0; top: 50%;
+  width: max(1px, calc(1 * var(--u)));
+  height: calc(48 * var(--u));
+  transform: translateY(-50%);
+  background: rgba(192, 185, 187, .4);
+}
+.intro__label {
+  font-size: calc(16 * var(--u));
+  line-height: calc(16 * var(--u));
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: #939393 /* Dark grey */;
+}
+.intro__value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(22 * var(--u));
+  line-height: calc(30 * var(--u));
+  letter-spacing: .02em;
+  color: var(--white);
+}
+
 /* ===== 02 Challenge ===== */
 .challenge { height: calc(676 * var(--u)); }
 .challenge .bg-title { left: calc(50% + (-13 - 720) * var(--u)); top: calc(348 * var(--u)); }
@@ -457,8 +511,8 @@ em { font-style: normal; color: var(--pink); }
 .ideas__card .h2, .ideas__card .body { text-shadow: none; }
 
 /* ===== 09 CTA ===== */
-/* CTA: nadpis + kontaktní formulář v rámečku (Figma 1440: sekce 1216, obsah 256 od horního okraje) */
-.cta { height: calc(1216 * var(--u)); }
+/* CTA: nadpis + kontaktní formulář v rámečku + odkaz na další projekty (Figma 1440: sekce 1305, obsah 256 od horního okraje) */
+.cta { height: calc(1305 * var(--u)); }
 .cta__content {
   left: calc(50% + (120 - 720) * var(--u));
   width: calc(1200 * var(--u));
@@ -466,9 +520,10 @@ em { font-style: normal; color: var(--pink); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(32 * var(--u));
+  gap: calc(64 * var(--u));
   text-align: center;
 }
+.cta__contact { width: 100%; display: flex; flex-direction: column; align-items: center; gap: calc(32 * var(--u)); }
 .cta__heading { display: flex; flex-direction: column; align-items: center; gap: calc(32 * var(--u)); white-space: nowrap; }
 .cta .h2 { text-shadow: none; }
 
@@ -532,6 +587,27 @@ em { font-style: normal; color: var(--pink); }
 /* tlačítko Submit: 32 pod polem pro zprávu, stejný styl jako ostatní tlačítka */
 .cta-form__submit-wrap { padding-top: calc(16 * var(--u)); }
 .cta-form__submit { cursor: pointer; border: 0; }
+
+/* „Not ready to talk yet?“ + obrysové tlačítko se šipkou */
+.cta__other { display: flex; align-items: center; gap: calc(24 * var(--u)); }
+.cta__other-lead {
+  font-size: calc(16 * var(--u));
+  line-height: calc(24 * var(--u));
+  letter-spacing: .05em;
+  color: #939393; /* Dark grey */
+}
+.cta__other-btn { width: auto; gap: calc(12 * var(--u)); }
+.icon-arrow { display: block; width: calc(22 * var(--u)); height: calc(16 * var(--u)); transition: transform .25s ease; }
+.cta__other-btn:hover .icon-arrow { transform: translateX(calc(4 * var(--u))); animation: none; }
+/* najetí myší: bílá výplň se rozlije zleva doprava, text a šipka zčernají */
+.cta__other-btn {
+  background: linear-gradient(var(--white), var(--white)) no-repeat 0 0 / 0% 100% transparent;
+  transition: background-size .45s var(--ease-out), color .3s ease, border-color .25s ease;
+}
+.cta__other-btn:hover {
+  background: linear-gradient(var(--white), var(--white)) no-repeat 0 0 / 100% 100% transparent;
+  color: #000;
+}
 
 /* ===== Filmový grain přes celou stránku =====
    Vrstvy odspodu: pozadí a velké nápisy (z-index 0) → grain (1) → texty a fotky
@@ -630,6 +706,26 @@ em { font-style: normal; color: var(--pink); }
       background-color .25s ease, color .25s ease, filter .25s ease;
   }
   .js .is-in [data-reveal] { opacity: 1; transform: none; }
+
+  /* Intro: slova se rozsvěcují při scrollu (JS přidá .is-lit) */
+  .js .intro__statement.is-split .iw { opacity: .18; transition: opacity .45s ease; }
+  .js .intro__statement.is-split .iw.is-lit { opacity: 1; }
+  /* Intro: tagy naskočí postupně, svislé linky mezi nimi „vyrostou“ */
+  .js .intro__tag { opacity: 0; transform: translateY(calc(16 * var(--u))); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+  .js .intro__tag + .intro__tag::before { transform: translateY(-50%) scaleY(0); transition: transform .6s var(--ease-out); }
+  .js .tags-in .intro__tag { opacity: 1; transform: none; }
+  .js .tags-in .intro__tag + .intro__tag::before { transform: translateY(-50%) scaleY(1); }
+  .js .tags-in .intro__tag:nth-child(2) { transition-delay: .15s; }
+  .js .tags-in .intro__tag:nth-child(3) { transition-delay: .3s; }
+  .js .tags-in .intro__tag:nth-child(2)::before { transition-delay: .3s; }
+  .js .tags-in .intro__tag:nth-child(3)::before { transition-delay: .45s; }
+
+  /* Tlačítko „See other projects“: po objevení šipka dvakrát „ťukne“ doprava */
+  .js .is-in .cta__other-btn .icon-arrow { animation: arrow-nudge .9s ease-in-out 1.2s 2; }
+  @keyframes arrow-nudge {
+    0%, 100% { transform: none; }
+    40% { transform: translateX(calc(6 * var(--u))); }
+  }
 
   /* Typewriter citace — znaky drží místo, jen se postupně zviditelňují */
   .js .tw-char { visibility: hidden; }

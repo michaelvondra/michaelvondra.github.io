@@ -157,6 +157,55 @@
     revealObserver.observe(g);
   });
 
+  /* --- 1b) Intro: popisek se při scrollu „rozsvěcuje“ slovo po slově ---
+     Slova začínají ztlumená (18 %) a postupně se rozsvítí, jak uživatel scrolluje:
+     start = horní hrana textu v 90 % výšky okna, konec = spodní hrana textu v 70 %
+     (text je celý rozsvícený zhruba ve chvíli, kdy je uprostřed obrazovky).
+     Když je rozsvíceno ~90 % slov, naskočí postupně i tagy pod textem. */
+  var statement = document.querySelector('[data-words]');
+  if (statement) {
+    var words = [];
+    (function split(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            var w = document.createElement('span');
+            w.className = 'iw';
+            w.textContent = part;
+            frag.appendChild(w);
+            words.push(w);
+          });
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === 1) {
+          split(child);
+        }
+      });
+    })(statement);
+    statement.classList.add('is-split');
+
+    var introContent = statement.parentElement;
+    var lit = 0, wordsQueued = false;
+    var updateWords = function () {
+      wordsQueued = false;
+      var r = statement.getBoundingClientRect(), vh = window.innerHeight;
+      var p = (vh * 0.9 - r.top) / (vh * 0.9 - vh * 0.7 + r.height);
+      p = Math.min(1, Math.max(0, p));
+      var target = Math.round(p * words.length);
+      while (lit < target) words[lit++].classList.add('is-lit');
+      while (lit > target) words[--lit].classList.remove('is-lit');
+      if (p > 0.9) introContent.classList.add('tags-in');
+    };
+    var requestWords = function () {
+      if (!wordsQueued) { wordsQueued = true; requestAnimationFrame(updateWords); }
+    };
+    window.addEventListener('scroll', requestWords, { passive: true });
+    window.addEventListener('resize', requestWords);
+    updateWords();
+  }
+
   /* --- 2) Galerie: pomalý vodorovný posun po celou dobu, kdy je pruh v okně ---
      Začátek: pruh vjíždí zespodu. Konec: pruh odjíždí nahoře.
      Pás fotek (3 × 528 + 2 × 64 = 1712 px při 1440) začíná 40 px vlevo za okrajem,
